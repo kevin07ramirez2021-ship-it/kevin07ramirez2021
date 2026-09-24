@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Multijugador Educativa - Ramas Únicas y Penalización</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- PANTALLA 1: INICIO -->
+    <div id="screen-welcome" class="screen active">
+        <div class="welcome-card">
+            <h1>🎮 Juego Matemático</h1>
+            <p>Selecciona la ficha con la que deseas competir. Al elegir un camino, las demás ramas quedarán bloqueadas.</p>
+            
+            <span class="color-picker-label">Elige el color de tu ficha:</span>
+            <div class="color-picker-grid" id="colorPicker">
+                <div class="color-badge selected" style="background-color: #e53e3e;" data-color="#e53e3e"></div>
+                <div class="color-badge" style="background-color: #3182ce;" data-color="#3182ce"></div>
+                <div class="color-badge" style="background-color: #38a169;" data-color="#38a169"></div>
+                <div class="color-badge" style="background-color: #dd6b20;" data-color="#dd6b20"></div>
+                <div class="color-badge" style="background-color: #805ad5;" data-color="#805ad5"></div>
+                <div class="color-badge" style="background-color: #319795;" data-color="#319795"></div>
+            </div>
+
+            <button class="btn-action-primary" onclick="launchPlayerMode()">Entrar como Jugador</button>
+            <div class="divider"></div>
+            <button class="btn-action-organizer" onclick="launchOrganizerMode()">⚙️ Entrar como Organizador (Panel)</button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: VISTA DEL JUGADOR REAL -->
+    <div id="screen-game" class="screen">
+        <div id="game-penalty-banner" class="penalty-banner">
+            ⏳ RESPUESTA INCORRECTA: ESPERA <span id="banner-timer-text">60</span>s PARA CONTINUAR
+        </div>
+
+        <header class="app-header">
+            <div class="app-title">📍 Mapa de Desafíos en Vivo</div>
+            <div class="header-controls">
+                <div id="player-identity-tag" class="player-identity-tag"></div>
+                <button class="btn-nav-exit" onclick="showWelcomeScreen()">Salir al Menú</button>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <div class="map-viewport">
+                <svg id="game-svg-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></svg>
+                <div id="game-map-canvas" class="map-canvas"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: VISTA DEL ORGANIZADOR -->
+    <div id="screen-organizer" class="screen">
+        <header class="app-header">
+            <div class="app-title">📊 Panel del Organizador (Jugadores Reales)</div>
+            <div class="header-controls">
+                <button class="btn-nav-exit" onclick="showWelcomeScreen()">Salir al Menú</button>
+            </div>
+        </header>
+
+        <div class="main-layout">
+            <div class="map-viewport">
+                <svg id="org-svg-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></svg>
+                <div id="org-map-canvas" class="map-canvas"></div>
+            </div>
+
+            <div id="organizer-sidebar">
+                <div class="sidebar-section-title">
+                    <span>Jugadores Conectados</span>
+                    <span id="connected-count" style="background: #e2e8f0; padding: 2px 8px; border-radius: 10px; font-size: 11px;">0</span>
+                </div>
+                <div id="active-players-container" class="active-players-list"></div>
+
+                <div class="sidebar-section-title">
+                    <span>Registro en Vivo</span>
+                </div>
+                <div id="live-activity-log" class="live-log-container">
+                    <div class="log-entry"><span class="time">[Sistema]</span> Panel de monitoreo iniciado...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL INTERACTIVO -->
+    <div id="questionModal" class="modal-overlay">
+        <div id="modalCard" class="modal-card">
+            <div id="modalTopicTitle" class="modal-topic-badge">Categoría</div>
+            <div id="modalQuestionBody" class="modal-question-text">Pregunta...</div>
+            <div id="modalOptionsContainer" class="modal-options-list"></div>
+
+            <div id="modalPenaltyBox" class="modal-penalty-box">
+                <h4>❌ ¡Respuesta Incorrecta!</h4>
+                <p>Se ha activado el tiempo de espera obligatorio de 1 minuto.</p>
+                <div id="modalCountdownText" class="penalty-countdown">60s</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
